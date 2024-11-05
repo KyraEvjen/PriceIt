@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed&amp;display=swap">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+    integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+    integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+    crossorigin="anonymous"></script>
+
+  <!--Font links-->
+  <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet'>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <!--GUESS ITEM SCRIPT
+todo: randomize item upon refreshing page
+-->
+
+</head>
+
+<body style="font-family: 'Poppins', sans-serif;">
+  <!-- Top Left Screen Contents-->
+  <!-- Home Button-->
+  <div style="padding-top: 20px; padding-inline: 10px;">
+    <a href="homepage.html"> <button type="button" id='newgame' class="btn btn-lg"
+        style="background-color: white; font-weight: bold;">
+        Home </button></a>
+
+    <!-- Help Button - Modal Button -->
+    <button type="button" class="btn btn-circle" style="background-color: #0d6efd; color: white; font-weight: bold; "
+      data-toggle="modal" data-target="#exampleModalCenter">
+      ?
+    </button>
+
+    <!-- Top Right Screen Contents-->
+    <button type="button" class="btn btn-primary saved-button" style="float: right;" data-toggle="modal"
+      data-target="#listmodal">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi-heart-fill"
+        viewBox="0 0 16 16">
+        <path
+          d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+      </svg>
+      List of Saved Items
+    </button>
+  </div>
+  <div class="container-sm">
+    <h1 class="title" class="text-center">price&nbsp;&nbsp;</h1>
+    <h1 class="title2" style="font-weight: bold;">&nbsp; &nbsp; &nbsp;it!</h1>
+    <div class="container-lg d-flex justify-content-center align-items-center pb-5">
+    </div>
+
+    <div class="row">
+
+      <!-- Item Image -->
+      <div class="col d-flex justify-content-center" style="padding-bottom: 10px;">
+        <div class="card" style="width: 18rem; background: rgba(255, 255, 255, 0.3)">
+          <img class="card-img-top" src="placeholder.PNG" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title text-black">Item Name?</h6>
+              <p class="card-text text-black fst-italic " style="color: rgba(148, 148, 148, 0.3);">Item Category</p>
+
+              <!-- Heart Icon -->
+              <div class="d-grid gap-2" style="padding-bottom: 10px;">
+                <button id="addToWishlist" onclick="changecolor()" type="button" class="btn btn-danger"
+                  data-toggle="button"><i><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+                      fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                      <path
+                        d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                    </svg> </i></button>
+              </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Guess Box -->
+      <form>
+        <div class="input-group justify-content-center">
+          <span class="dollar input-group-addon justify-content-center">$</span>
+          <input type="number" name="userGuess" step="any" class="form-control mx-2 textbox" id="userGuess"
+            placeholder="Enter Guess Here">
+        </div>
+
+        <!-- Status Message -->
+        <div class="col d-flex justify-content-center" style="margin-top: 10px">
+          <h4 id="statusmessage" class="text-black text-center"> </h4>
+        </div>
+
+
+        <!-- Guess Button -->
+        <div class="col d-flex justify-content-center">
+          <button type="submit" class="btn btn-success btn-lg button"> Guess </button>
+        </div>
+      </form>
+
+      <!-- Your Score Display -->
+      <hr>
+      <h3 class="text-center" id='scorebox'>Your Score:</h3>
+
+    </div>
+    <!--End of Container/Center-->
+
+  </div>
+  <!--Big Box End -->
+  <script>
+    function changecolor() {
+      document.getElementById("addToWishlist").className = "btn btn-success";
+    }
+  </script>
+  <!-- How to Play - Modal Function -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content text-black">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">How to Play</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-black">
+          <h4>Before clicking play, you must pick a category.</h4>
+          <h6>The items you will be guessing the price of will be drawn from the category you chose.</h6>
+          <h6>Your guess must be within $20 of the price to earn a point.</h6>
+          <h6>You will have 3 changes to guess the price of the item or else Game Over!</h6>
+          <h6>If an item looks interesting to you, you can save the item! </h6>
+          <h6>To save the item click on the heart icon.</h6>
+          <h6>The item will then be saved to a list.</h6>
+          <h6>If you want to play from another category, click the "Home" button. </h6>
+          <h6>Your progress WILL NOT be saved.</h6>
+          <h6> Your saved items WILL be saved. </h6>
+          <h6 class="fw-bold">Disclaimer: Prices in this app may not reflect current Amazon prices.</h6>
+        </div>
+        <div class="modal-footer">
+          <div class="col d-flex justify-content-center">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="listmodal" tabindex="-1" role="dialog" aria-labelledby="listmodal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-black" id="exampleModalLongTitle">Saved Items</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-black" style="overflow-y: auto;">
+          <h4>Wishlist Items</h4>
+          <div id="wishlist-items"></div>
+        </div>
+        <div class="modal-footer">
+          <div class="col d-flex justify-content-center">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Retrieve wishlist items from localStorage
+    var wishlistJson = localStorage.getItem("wishlist");
+    var wishlist = JSON.parse(wishlistJson);
+
+    // Iterate through each item and add it to the wishlist-items ul
+    wishlist.forEach(function (item) {
+      // Create a li element for the item
+      var li = $("<li>").appendTo("#wishlist-items");
+
+      // Create an img element for the item image
+      $("<img>").attr("src", item[4]).appendTo(li);
+
+      // Create a span element for the item name
+      $("<span>").text(item[2]).appendTo(li);
+      var itemlink = $('<a>', {
+        href: item[1],
+        text: " Amazon Link ",
+        target: '_blank'
+      });
+      // Create a span element for the item price
+      $(li).append(itemlink);
+      console.log(item[1])
+      $("<button type = 'button' class='btn btn-danger' id = 'removeWishlist'>Remove Item</button>").appendTo(li);
+
+
+    });
+  </script>
+  <script src='js/guessPrice.js'></script>
+  <script src='js/getFile.js'></script>
+
+
+  <!--ADD ITEM TO WISHLIST-->
+  <script src='js/addWishlist.js'></script>
+
+
+
+  <!--REMOVE ITEM FROM WISHLIST-->
+  <script src='js/deleteWishlist.js'></script>
+
+
+  <!--RELOAD GAME ON HOME PAGE SELECTED-->
+  <script src='js/newGame.js'></script>
+
+  <script src='js/util.js'></script>
+
+</body>
+
+</html>
